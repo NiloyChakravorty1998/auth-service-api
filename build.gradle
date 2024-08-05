@@ -1,0 +1,46 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.4'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17 // Update to Java 17 or later
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+group = 'com.io.service'
+version = '0.0.1-SNAPSHOT'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+ext	{
+	jwt = '0.11.5'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation "io.jsonwebtoken:jjwt-api:${jwt}"
+	implementation "io.jsonwebtoken:jjwt-impl:${jwt}"
+	implementation "io.jsonwebtoken:jjwt-jackson:${jwt}"
+	compileOnly 'org.projectlombok:lombok:1.18.24' // Use a compatible version of Lombok
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24' // Use a compatible version of Lombok
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

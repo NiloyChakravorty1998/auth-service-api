@@ -1,6 +1,7 @@
 package com.rest.auth.Application.controller;
 
 import com.rest.auth.Application.service.AuthenticationService;
+import com.rest.auth.Application.vo.ResponseVO;
 import com.rest.auth.Application.vo.SignInRequestVO;
 import com.rest.auth.Application.vo.SignupRequestVO;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,16 @@ public class AuthenticationController {
 
     @PostMapping(path = "/register", name = "register new user")
     public ResponseEntity<Object> signUp(@RequestBody SignupRequestVO ivo){
-        return new ResponseEntity<>(authService.register(ivo), HttpStatus.CREATED);
+        log.info("Signup for : "+ ivo.getEmail());
+        ResponseVO ovo = authService.register(ivo);
+        ovo.setRequestId(ivo.getRequestId());
+        return new ResponseEntity<>(ovo, HttpStatus.CREATED);
     }
     @PostMapping(path = "/authenticate", name = "login user")
     public ResponseEntity<Object> signIn(@RequestBody SignInRequestVO ivo){
         log.info("Login for : "+ ivo.getEmail());
-        return new ResponseEntity<>(authService.authenticate(ivo), HttpStatus.OK);
+        ResponseVO ovo = authService.authenticate(ivo);
+        ovo.setRequestId(ivo.getRequestId());
+        return new ResponseEntity<>(ovo, HttpStatus.OK);
     }
 }
